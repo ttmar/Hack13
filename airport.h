@@ -1,5 +1,5 @@
 /**
-Author: Victor Nguyen, Collin Sipple
+Author: Victor Nguyen, Collin Sipple, Alexis Linhardt, Serigne Toure, Salman Djingueinabaye, David Ryan
 My NU ID: 02357235
 CLASS: 155E
 Section 250
@@ -8,7 +8,7 @@ Date Finished: 11/16/2018
  *
  */
 /**
- *
+ *Head file for airport.c
  */
 
 typedef struct {char *gpsId;
