@@ -118,6 +118,9 @@ return totalTime;
 }
 
 int cmpByGPSId(const void* a, const void* b){
+  if(a == NULL || b == NULL){
+    return 0;
+  }
 const Airport *x = (const Airport *) a;
 const Airport *y = (const Airport *) b;
 if((x->gpsId) < (y->gpsId)){
@@ -134,6 +137,9 @@ if((x->gpsId) < (y->gpsId)){
  * their type.
  */
 int cmpByType(const void* a, const void* b){
+  if(a == NULL || b == NULL){
+    return 0;
+  }
   const Airport *x = (const Airport *) a;
   const Airport *y = (const Airport *) b;
   return strcmp(x->type, y->type);
@@ -144,6 +150,9 @@ int cmpByType(const void* a, const void* b){
  * their name in lexicographic order.
  */
 int cmpByName(const void* a, const void* b){
+  if(a == NULL || b == NULL){
+    return 0;
+  }
   const Airport *x = (const Airport *) a;
   const Airport *y = (const Airport *) b;
   return strcmp(x->type, y->type);
@@ -154,6 +163,9 @@ int cmpByName(const void* a, const void* b){
  * their name in reverse lexicographic order.
  */
 int cmpByNameDesc(const void* a, const void* b){
+  if(a == NULL || b == NULL){
+    return 0;
+  }
   const Airport *x = (const Airport *) a;
   const Airport *y = (const Airport *) b;
   return strcmp(y->type, x->type);
@@ -163,18 +175,24 @@ int cmpByNameDesc(const void* a, const void* b){
  * A comparator function that orders the two Airport structures first by
  * country, then by city
  */
-int cmpByCountryCity(const void* a, const void* b){
-  const Airport *x = (const Airport *) a;
-  const Airport *y = (const Airport *) b;
-  return -(strcmp(x->city, y->city));
-}
+ int cmpByCountryCity(const void* a, const void* b) {
+   const Airport* x = (const Airport*)a;
+   const Airport* y = (const Airport*)b;
+   int result = strcmp(x->countryAbbrv, y->countryAbbrv);
+   if (result == 0) {
+     return strcmp(x->city, y->city);
+   }
+   return result;
+ }
 
 /**
  * A comparator function that orders the given Airport structures
  * by their latitudes north to south
  */
 int cmpByLatitude(const void* a, const void* b){
-
+  if(a == NULL || b == NULL){
+    return 0;
+  }
   const Airport *x = (const Airport *) a;
   const Airport *y = (const Airport *) b;
   if((x->latitude) < (y->latitude)){
@@ -184,6 +202,7 @@ int cmpByLatitude(const void* a, const void* b){
   }else{
     return 0;
     }
+    return 0;
 }
 
 /**
@@ -191,7 +210,9 @@ int cmpByLatitude(const void* a, const void* b){
  * by their longitudes west to east
  */
 int cmpByLongitude(const void* a, const void* b){
-
+  if(a == NULL || b == NULL){
+    return 0;
+  }
   const Airport *x = (const Airport *) a;
   const Airport *y = (const Airport *) b;
   if((x->longitude) < (y->longitude)){
@@ -201,6 +222,7 @@ int cmpByLongitude(const void* a, const void* b){
   }else{
     return 0;
     }
+return 0;
 }
 
 /**
@@ -210,6 +232,9 @@ int cmpByLongitude(const void* a, const void* b){
  * in ascending order according (closest to Lincoln would come first)
  */
 int cmpByLincolnDistance(const void* a, const void* b){
+  if(a == NULL || b == NULL){
+    return 0;
+  }
 const Airport *x = (const Airport *) a;
 const Airport *y = (const Airport *) b;
 Airport* LincolnAir = createAirport("LNK", "sml", "Lincoln Airport", 40.846176, -96.75471, 1219, "Lincoln, Nebraska", "USA");
@@ -245,6 +270,10 @@ void printAllAirports(Airport *airports, int size) {
  * given array of Airport structures.
  */
 void generateReports(Airport *airports, int n){
+  if ( airports == NULL)
+{
+ return;
+}
   printf("============================================================\n");
   printf("Airport, original order:\n");
 	printAllAirports(airports, n);
@@ -298,39 +327,42 @@ void generateReports(Airport *airports, int n){
 	printf("This is the airport that is the geographic west-east median of the given airports: \n");
 	qsort(airports , n, sizeof(Airport), cmpByLongitude);
 	printAllAirports(airports, ceil(0.5 * n));
-  printf("\n");
-	printf("Testing\n");
-	qsort(airports, n, sizeof(Airport), cmpByCountryCity);
-	int i;
-	for(i = 0; i < n; i++) {
-		if(strcmp(airports->city, "New York") == 0) {
-			printAirport(&airports[i]);
-			break;
-		}else if(i == (n - 1)) {
-			printf("Airport not found \n");
-		}
-	}
 
-	printf("Testing\n");
-	qsort(airports, n, sizeof(Airport), cmpByCountryCity);
-	for(i = 0; i < n; i++) {
-		if(strcmp(airports->countryAbbrv, "CA-QC") == 0) {
-			printAirport(&airports[i]);
-			break;
-		}else if(i == (n - 1)) {
-			printf("Airport not found \n");
-		}
-	}
+    printf("\nIs airport in new york ?\n");
+    qsort(airports, n, sizeof(Airport), cmpByCountryCity);
+    int i;
+    int flag = 0;
+    for (i = 0; i < n; i++) {
+      if (strcmp(airports[i].city, "New York") == 0) {
+        printAirport(&airports[i]);
+        flag = 1;
+      } else if ((i == (n - 1)) && (flag == 0)) {
+        printf("Airport not found \n\n");
+      }
+    }
 
+    printf("Is airport in cananda ?\n");
+    flag = 0;
+    i = 0;
+    for (i = 0; i < n; i++) {
+      if (strncmp(airports[i].countryAbbrv, "CA",2) == 0) {
+        printAirport(&airports[i]);
+        flag = 1;
+      } else if ((i == (n - 1)) && (flag == 0)) {
+        printf("Airport not found \n\n");
+      }
+    }
 
-	printf("Testing\n");
-	qsort(airports, n, sizeof(Airport), cmpByType);
-	for(i = 0; i < n; i++) {
-		if(strcmp(airports->type, "large_airport") == 0) {
-			printAirport(&airports[i]);
-			break;
-		}else if(i == (n - 1)) {
-			printf("Airport not found \n");
-		}
-	}
+    printf("Is airport a large airport ?\n");
+    flag = 0;
+    i = 0;
+    for (i = 0; i < n; i++) {
+      if (strcmp(airports[i].type, "large_airport") == 0) {
+        printAirport(&airports[i]);
+        flag = 1;
+      } else if ((i == (n - 1)) && (flag == 0)) {
+        printf("Airport not found \n\n");
+      }
+    }
+return;
 }
