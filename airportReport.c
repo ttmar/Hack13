@@ -18,15 +18,15 @@ Date Finished: 11/16/2018
 int main(int argc, char** argv) {
   Airport* test_1 =
       createAirport("OESB", "large_airport", "my airport", 23.514500, 34.654100,
-                    1500, "my city", "SA-34");
+                    1500, "my city", "US-NE");
   Airport* test_2 = createAirport("JC28", "heliport", "Air Pegasus Heliport",
-                                  40.7548, 74.0071, 900, "New York", "FG-04");
+                                  40.7548, 74.0071, 900, "New York", "US-NY");
   Airport* test_3 =
       createAirport("KW21", "airport", "not so cool airport", 10.514500,
-                    83.973100, 550, "not so cool city", "WE-84");
+                    83.973100, 550, "not so cool city", "US-KS");
   Airport* test_4 =
       createAirport("LA01", "large_airport", "UNL airport", 84.754500,
-                    11.293800, 30, "UNL city", "EF-09");
+                    11.293800, 30, "UNL city", "US-IL");
   Airport* test_5 =
       createAirport("NA12", "heliport", "ungly airport", 11.923500, 41.344100,
                     0, "ugly city", "CA-UC");
